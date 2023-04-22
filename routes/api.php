@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware("api_key")->group(function(){
     Route::post("/v1/creategame", [GameController::class, "CreateGame"])->name('createGame');
+    Route::post("/v1/joingame", [GameController::class, "JoinGame"])->name('joinGame');
 });

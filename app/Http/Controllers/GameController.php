@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGamesRequest;
+use App\Http\Requests\JoinGameRequest;
 use App\Models\Games;
 use App\Models\Players;
 use GuzzleHttp\Promise\Create;
@@ -30,11 +31,15 @@ class GameController extends Controller
 
     private function CreatePin(){
         do {
-            $pin = rand(1000, 9999);
+            $pin = rand(100000, 999999);
             $game = Games::where('game_pin', $pin)->first();
         } while ($game);
 
         return $pin;
+    }
+
+    public function JoinGame(JoinGameRequest $request){
+        
     }
 
     private function CreatePlayer($game_id, $name, bool $is_admin=false):int{
@@ -44,9 +49,5 @@ class GameController extends Controller
         $players->is_admin = $is_admin;
         $players->save();
         return $players->id;
-    }
-
-    public function JoinGame(Request $request){
-
     }
 }

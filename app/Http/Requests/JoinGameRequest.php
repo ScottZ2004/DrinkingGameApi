@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateGamesRequest extends FormRequest
+class JoinGameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,11 @@ class CreateGamesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "min:2", "max:16", "string"],
-            "game_type" => ["required", "string"]
+            "game_pin" => ["required", "integer", "max:6", "min:6"],
+            "name" => ["required", "min:2", "max:16", "string"]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
