@@ -25,7 +25,8 @@ class GameController extends Controller
             "game_pin" => $game->game_pin,
             "game_id" => $game->id,
             "admin_id" => $game->admin_id,
-            "game_type" => $game->game_type
+            "game_type" => $game->game_type,
+            "name" => $request->name
         ]);
     }
 
@@ -39,14 +40,24 @@ class GameController extends Controller
     }
 
     public function JoinGame(JoinGameRequest $request){
-        
+        // checks if game exists
+        $game = Games::where("game_pin", $request->game_pin)->first();
+        if (empty($game))
+            return response()->json(['error' => 'Invalid Game Pin'], 400);
+        $existingPlayer = Players::where("name", $request->name)->where("game_id", $game->id)->first();
+        //checks if player has the same name
+        if(!empty($existingPlayer))
+            return response()->json(["error" => 'Someone Already has this name'], 400);
+
+        $player = $this->CreatePlayer($game->id, $request->name);
+        return response()->json(["name" => $request->name, "player_id" =>$player , "game_id" => $game->id, "game_type" => $game->type]);
     }
 
-    private function CreatePlayer($game_id, $name, bool $is_admin=false):int{
+    private function CreatePlayer($gameId, $name, bool $isAdmin=false):int{
         $players = new Players;
-        $players->game_id = $game_id;
+        $players->game_id = $gameId;
         $players->name = $name;
-        $players->is_admin = $is_admin;
+        $players->is_admin = $isAdmin;
         $players->save();
         return $players->id;
     }

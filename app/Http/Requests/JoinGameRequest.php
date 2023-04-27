@@ -24,7 +24,7 @@ class JoinGameRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "game_pin" => ["required", "integer", "max:6", "min:6"],
+            "game_pin" => ["required", "integer", "max:999999", "min:100000"],
             "name" => ["required", "min:2", "max:16", "string"]
         ];
     }
