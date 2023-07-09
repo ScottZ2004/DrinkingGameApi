@@ -25,7 +25,7 @@ class CreateGamesRequest extends FormRequest
     {
         return [
             "name" => ["required", "min:2", "max:16", "string"],
-            "game_type" => ["required", "string"]
+            "game_type_id" => ["required", "integer"]
         ];
     }
     protected function failedValidation(Validator $validator)
