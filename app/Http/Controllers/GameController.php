@@ -76,14 +76,9 @@ class GameController extends Controller
         return $players->id;
     }
 
-    public function GameType(Request $request){
-        if (!isset($request->game_pin))
-            return response()->json(['error' => 'You need to provide a game_pin'], 400);
-        $game = Games::where('game_pin', $request->game_pin)->first();
-        if (!isset($game))
-            return response()->json(['error' => 'Game not found'], 404);
-        if (!isset($game->game_type))
-            return response()->json(['error' => 'There is no game type for this game, please try again'], 404);
-        return response()->json(['game_type' => $game->game_type]);
+    public function DeleteInactiveGames(){
+
     }
+
+
 }
